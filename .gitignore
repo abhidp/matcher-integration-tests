@@ -1,0 +1,6 @@
+node_modules
+.env
+test_report
+.vscode
+yarn-error.log
+certificates
