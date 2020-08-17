@@ -37,7 +37,7 @@ const axios_1 = __importDefault(require("axios"));
 const chai_1 = require("chai");
 describe('Request merchant uploader api-key', () => __awaiter(void 0, void 0, void 0, function* () {
     let accessToken, data;
-    describe('Negative scenarios', () => {
+    describe('Negative scenarios', () => __awaiter(void 0, void 0, void 0, function* () {
         it('Should return 401: Unauthorized when access token is not provided', () => __awaiter(void 0, void 0, void 0, function* () {
             accessToken = null;
             data = null;
@@ -62,8 +62,8 @@ describe('Request merchant uploader api-key', () => __awaiter(void 0, void 0, vo
                 chai_1.expect(error.response.data.detail).to.be.null;
             });
         }));
-    });
-    describe('Positive scenarios', () => {
+    }));
+    describe('Positive scenarios', () => __awaiter(void 0, void 0, void 0, function* () {
         before('Authenticate', () => __awaiter(void 0, void 0, void 0, function* () {
             accessToken = yield options.getJwtToken();
         }));
@@ -84,6 +84,6 @@ describe('Request merchant uploader api-key', () => __awaiter(void 0, void 0, vo
                 console.log(error.response.data);
             });
         }));
-    });
+    }));
 }));
 //# sourceMappingURL=getMerhantUploaderKeys.spec.js.map

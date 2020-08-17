@@ -42,10 +42,6 @@ describe('Should get an access token as a merchant uploader', () => __awaiter(vo
     };
     before('Authenticate', () => __awaiter(void 0, void 0, void 0, function* () {
         accessToken = yield options.getJwtToken();
-        data = {
-            merchant: process.env.MERCHANT_DEFAULT,
-            integrator: process.env.INTEGRATOR
-        };
         const config = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
         try {
             const response = yield axios_1.default(config);
@@ -55,24 +51,56 @@ describe('Should get an access token as a merchant uploader', () => __awaiter(vo
             console.log(error.response.data);
         }
     }));
-    it('should successfully get an auth token for merchant uploader', () => __awaiter(void 0, void 0, void 0, function* () {
-        const body = {
+    it('Should return 400: Bad request when apiKey is not provided in the body', () => __awaiter(void 0, void 0, void 0, function* () {
+        const bodyWithoutApiKey = {
+            requiredRole: {
+                merchant_uploader: data
+            }
+        };
+        const config = yield options.options('POST', '/authenticate', (accessToken = null), bodyWithoutApiKey);
+        yield axios_1.default(config).catch((error) => {
+            chai_1.expect(error.response.status).to.equal(400);
+            chai_1.expect(error.response.statusText).to.equal('Bad Request');
+            chai_1.expect(error.response.data).to.be.an('object');
+            chai_1.expect(error.response.data.msg).to.be.equal('missing struct field apiKey at $');
+            chai_1.expect(error.response.data.code).to.be.equal('E0000000');
+            chai_1.expect(error.response.data.detail).to.be.null;
+        });
+    }));
+    it('Should return 401: Unauthorized when an invalid apiKey is provided in the body', () => __awaiter(void 0, void 0, void 0, function* () {
+        const bodyWithInvalidApiKey = {
+            apiKey: 'invalidApiKey',
+            requiredRole: {
+                merchant_uploader: data
+            }
+        };
+        const config = yield options.options('POST', '/authenticate', (accessToken = null), bodyWithInvalidApiKey);
+        yield axios_1.default(config).catch((error) => {
+            chai_1.expect(error.response.status).to.equal(401);
+            chai_1.expect(error.response.statusText).to.equal('Unauthorized');
+            chai_1.expect(error.response.data).to.be.an('object');
+            chai_1.expect(error.response.data.msg).to.be.equal('Unauthorized');
+            chai_1.expect(error.response.data.code).to.be.equal('E0000000');
+            chai_1.expect(error.response.data.detail).to.be.null;
+        });
+    }));
+    it('Should successfully get an auth token for merchant uploader', () => __awaiter(void 0, void 0, void 0, function* () {
+        const validRequestBody = {
             apiKey,
             requiredRole: {
                 merchant_uploader: data
             }
         };
-        const config = yield options.options('POST', '/authenticate', (accessToken = null), body);
-        yield axios_1.default(config)
-            .then((response) => {
+        const config = yield options.options('POST', '/authenticate', (accessToken = null), validRequestBody);
+        yield axios_1.default(config).then((response) => {
             chai_1.expect(response.status).to.equal(200);
             chai_1.expect(response.statusText).to.equal('OK');
             chai_1.expect(response.data).to.be.an('object');
+            chai_1.expect(response.data.jwt_token).to.be.not.null;
+            chai_1.expect(response.data.jwt_token).to.be.not.empty;
             chai_1.expect(response.data.userRole).to.be.an('object');
-            chai_1.expect(response.data.userRole).to.have.keys('merchant_uploader');
-        })
-            .catch((error) => {
-            console.error(error);
+            chai_1.expect(response.data.userRole).to.have.key('merchant_uploader');
+            chai_1.expect(response.data.userRole.merchant_uploader).to.deep.equal(data);
         });
     }));
 }));

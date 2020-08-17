@@ -6,7 +6,7 @@ import { expect } from 'chai';
 describe('Request merchant uploader api-key', async () => {
   let accessToken: string, data: object;
 
-  describe('Negative scenarios', () => {
+  describe('Negative scenarios', async () => {
     it('Should return 401: Unauthorized when access token is not provided', async () => {
       accessToken = null;
       data = null;
@@ -35,7 +35,7 @@ describe('Request merchant uploader api-key', async () => {
     });
   });
 
-  describe('Positive scenarios', () => {
+  describe('Positive scenarios', async () => {
     before('Authenticate', async () => {
       accessToken = await options.getJwtToken();
     });
