@@ -11,7 +11,7 @@
     "server": "node_modules/.bin/nodemon dist/data/mocks/server.js",
     "resetDb": "node dist/util/resetDb.js",
     "dev": "node dist/util/authenticate.js",
-    "omnivore": "node_modules/.bin/mocha 'dist/omnivore/specs/merhantUploaderKeys.spec.js'"
+    "omnivore": "node_modules/.bin/mocha 'dist/omnivore/specs/getAccessTokenMerchantUploader.spec.js'"
   },
   "keywords": [],
   "author": "",
@@ -50,10 +50,7 @@
     "regenerator-runtime": "^0.13.5"
   },
   "mocha": {
-    "require": [
-      "dotenv/config",
-      "@babel/register"
-    ],
+    "require": [ "dotenv/config", "@babel/register" ],
     "timeout": 5000,
     "retries": 2,
     "reporter": "node_modules/mochawesome",

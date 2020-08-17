@@ -40,12 +40,12 @@ exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
         method: 'POST',
         url: `${process.env.BASE_URL}/authenticate`,
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        data: JSON.stringify({
+        data: {
             apiKey: process.env.APIKEY,
-            requiredRole: { merchant_default: process.env.MERCHANT_DEFAULT },
-        }),
+            requiredRole: { merchant_default: process.env.MERCHANT_DEFAULT }
+        }
     };
     const response = yield axios_1.default(config);
     return response.data.jwt_token;
@@ -56,9 +56,9 @@ exports.options = (method, path, accessToken, data = '') => __awaiter(void 0, vo
         url: `${process.env.BASE_URL}${path}`,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`
         },
-        data,
+        data
     };
 });
 //# sourceMappingURL=options.js.map

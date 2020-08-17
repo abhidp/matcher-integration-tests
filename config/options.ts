@@ -7,12 +7,12 @@ export const getJwtToken = async () => {
     method: 'POST',
     url: `${process.env.BASE_URL}/authenticate`,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    data: JSON.stringify({
+    data: {
       apiKey: process.env.APIKEY,
-      requiredRole: { merchant_default: process.env.MERCHANT_DEFAULT },
-    }),
+      requiredRole: { merchant_default: process.env.MERCHANT_DEFAULT }
+    }
   };
 
   const response = await axios(config);
@@ -25,8 +25,8 @@ export const options = async (method: string, path: string, accessToken: string,
     url: `${process.env.BASE_URL}${path}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`
     },
-    data,
+    data
   };
 };

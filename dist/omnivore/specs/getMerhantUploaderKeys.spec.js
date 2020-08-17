@@ -86,4 +86,4 @@ describe('Request merchant uploader api-key', () => __awaiter(void 0, void 0, vo
         }));
     });
 }));
-//# sourceMappingURL=merhantUploaderKeys.spec.js.map
+//# sourceMappingURL=getMerhantUploaderKeys.spec.js.map
