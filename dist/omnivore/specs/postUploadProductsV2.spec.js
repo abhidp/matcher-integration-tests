@@ -120,7 +120,6 @@ describe('Upload Products v2', () => {
         ];
         const config = yield options.options('POST', '/products/upload', authToken, requestPayload, (v2 = true));
         yield axios_1.default(config).then((response) => {
-            console.log('resp=', response);
             chai_1.expect(response.status).to.equal(200);
             chai_1.expect(response.statusText).to.equal('OK');
         });
