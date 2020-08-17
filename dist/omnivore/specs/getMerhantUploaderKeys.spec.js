@@ -35,7 +35,7 @@ require("regenerator-runtime/runtime.js");
 const options = __importStar(require("../../config/options"));
 const axios_1 = __importDefault(require("axios"));
 const chai_1 = require("chai");
-describe('Request merchant uploader api-key', () => __awaiter(void 0, void 0, void 0, function* () {
+describe('Request Merchant Uploader Api-Key', () => __awaiter(void 0, void 0, void 0, function* () {
     let accessToken, data;
     describe('Negative scenarios', () => __awaiter(void 0, void 0, void 0, function* () {
         it('Should return 401: Unauthorized when access token is not provided', () => __awaiter(void 0, void 0, void 0, function* () {

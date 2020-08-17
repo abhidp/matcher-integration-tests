@@ -3,7 +3,7 @@ import * as options from '../../config/options';
 import axios from 'axios';
 import { expect } from 'chai';
 
-describe('Should get an access token as a merchant uploader', async () => {
+describe('Request Access Token as Merchant Uploader Role', async () => {
   let accessToken: string,
     apiKey: string,
     data: object = {

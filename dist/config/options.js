@@ -38,7 +38,7 @@ dotenv.config();
 exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
     const config = {
         method: 'POST',
-        url: `${process.env.BASE_URL}/authenticate`,
+        url: `${process.env.API_PREFIX_V1}/authenticate`,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -50,10 +50,10 @@ exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield axios_1.default(config);
     return response.data.jwt_token;
 });
-exports.options = (method, path, accessToken, data = '') => __awaiter(void 0, void 0, void 0, function* () {
+exports.options = (method, path, accessToken, data, v2) => __awaiter(void 0, void 0, void 0, function* () {
     return {
         method,
-        url: `${process.env.BASE_URL}${path}`,
+        url: v2 ? `${process.env.API_PREFIX_V2}${path}` : `${process.env.API_PREFIX_V1}${path}`,
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`

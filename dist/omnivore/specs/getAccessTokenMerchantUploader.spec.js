@@ -35,7 +35,7 @@ require("regenerator-runtime/runtime.js");
 const options = __importStar(require("../../config/options"));
 const axios_1 = __importDefault(require("axios"));
 const chai_1 = require("chai");
-describe('Should get an access token as a merchant uploader', () => __awaiter(void 0, void 0, void 0, function* () {
+describe('Request Access Token as Merchant Uploader Role', () => __awaiter(void 0, void 0, void 0, function* () {
     let accessToken, apiKey, data = {
         merchant: process.env.MERCHANT_DEFAULT,
         integrator: process.env.INTEGRATOR

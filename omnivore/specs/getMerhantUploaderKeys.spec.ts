@@ -3,7 +3,7 @@ import * as options from '../../config/options';
 import axios from 'axios';
 import { expect } from 'chai';
 
-describe('Request merchant uploader api-key', async () => {
+describe('Request Merchant Uploader Api-Key', async () => {
   let accessToken: string, data: object;
 
   describe('Negative scenarios', async () => {
