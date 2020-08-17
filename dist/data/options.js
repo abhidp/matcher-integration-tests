@@ -31,11 +31,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.options = exports.getJwtToken = void 0;
+exports.options = exports.jwt_token = void 0;
 const axios_1 = __importDefault(require("axios"));
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
-exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.jwt_token = () => __awaiter(void 0, void 0, void 0, function* () {
     const config = {
         method: 'POST',
         url: `${process.env.BASE_URL}/authenticate`,
@@ -50,13 +50,13 @@ exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
     const response = yield axios_1.default(config);
     return response.data.jwt_token;
 });
-exports.options = (method, path, accessToken, data = '') => __awaiter(void 0, void 0, void 0, function* () {
+exports.options = (method, path, data = '') => __awaiter(void 0, void 0, void 0, function* () {
     return {
         method,
         url: `${process.env.BASE_URL}${path}`,
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${yield exports.jwt_token()}`,
         },
         data,
     };

@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-export const jwt_token = async () => {
+export const getJwtToken = async () => {
   const config: object = {
     method: 'POST',
     url: `${process.env.BASE_URL}/authenticate`,
@@ -19,13 +19,13 @@ export const jwt_token = async () => {
   return response.data.jwt_token;
 };
 
-export const options = async (method: string, path: string, data: any = '') => {
+export const options = async (method: string, path: string, accessToken: string, data: any = '') => {
   return {
     method,
     url: `${process.env.BASE_URL}${path}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${await jwt_token()}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     data,
   };

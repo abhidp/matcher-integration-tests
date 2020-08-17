@@ -22,6 +22,7 @@
     "data/**/*",
     "util/*",
     "specs/**/*",
+    "omnivore/**/*",
     "config/**/*"
   ],
   "exclude": [
