@@ -81,6 +81,7 @@ describe('Create receipt as Merchant and verify by getting the receipt', () => {
     it('Should successfully get the above created receipt', () => __awaiter(void 0, void 0, void 0, function* () {
         const config = yield options.options('GET', `/v1/receipts/${xref}`, accessToken);
         yield axios_1.default(config).then((response) => {
+            chai_1.expect(response).to.be.not.empty;
             chai_1.expect(response.status).to.equal(200);
             chai_1.expect(response.statusText).to.equal('OK');
             chai_1.expect(response.data.xref).to.equal(xref);

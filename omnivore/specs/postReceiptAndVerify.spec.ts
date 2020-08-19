@@ -55,6 +55,7 @@ describe('Create receipt as Merchant and verify by getting the receipt', () => {
   it('Should successfully get the above created receipt', async () => {
     const config: object = await options.options('GET', `/v1/receipts/${xref}`, accessToken);
     await axios(config).then((response) => {
+      expect(response).to.be.not.empty;
       expect(response.status).to.equal(200);
       expect(response.statusText).to.equal('OK');
       expect(response.data.xref).to.equal(xref);
