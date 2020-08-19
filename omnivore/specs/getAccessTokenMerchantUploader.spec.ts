@@ -13,7 +13,7 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
 
   before('Authenticate', async () => {
     accessToken = await options.getJwtToken();
-    const config: object = await options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+    const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
     try {
       const response = await axios(config);
       apiKey = response.data['api-key'];
@@ -29,7 +29,7 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
       }
     };
 
-    const config: object = await options.options('POST', '/authenticate', (accessToken = null), bodyWithoutApiKey);
+    const config: object = await options.options('POST', '/v1/authenticate', (accessToken = null), bodyWithoutApiKey);
     await axios(config).catch((error) => {
       expect(error.response.status).to.equal(400);
       expect(error.response.statusText).to.equal('Bad Request');
@@ -48,7 +48,12 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
       }
     };
 
-    const config: object = await options.options('POST', '/authenticate', (accessToken = null), bodyWithInvalidApiKey);
+    const config: object = await options.options(
+      'POST',
+      '/v1/authenticate',
+      (accessToken = null),
+      bodyWithInvalidApiKey
+    );
     await axios(config).catch((error) => {
       expect(error.response.status).to.equal(401);
       expect(error.response.statusText).to.equal('Unauthorized');
@@ -66,7 +71,7 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
         merchant_uploader: data
       }
     };
-    const config: object = await options.options('POST', '/authenticate', (accessToken = null), validRequestBody);
+    const config: object = await options.options('POST', '/v1/authenticate', (accessToken = null), validRequestBody);
     await axios(config).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.statusText).to.equal('OK');

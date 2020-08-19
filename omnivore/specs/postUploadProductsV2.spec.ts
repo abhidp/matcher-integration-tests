@@ -13,7 +13,7 @@ describe('Upload Products v2', () => {
     };
 
     const accessToken: string = await options.getJwtToken();
-    const apiKeyconfig: object = await options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+    const apiKeyconfig: object = await options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
     const apiKey = (await axios(apiKeyconfig)).data['api-key'];
 
     // Get an Auth Token as Merchant Uploader Role
@@ -25,7 +25,7 @@ describe('Upload Products v2', () => {
     };
 
     let token = null;
-    const authTokenconfig: object = await options.options('POST', '/authenticate', token, getAuthTokenRequestBody);
+    const authTokenconfig: object = await options.options('POST', '/v1/authenticate', token, getAuthTokenRequestBody);
     authToken = (await axios(authTokenconfig)).data['jwt_token'];
   });
 
@@ -57,7 +57,7 @@ describe('Upload Products v2', () => {
         ],
         variants: [
           {
-            variant_sku: '{{variant-sku-1}}',
+            variant_sku: '51100001',
             quantity: 100,
             pricing: {
               price: 109.95,
@@ -75,7 +75,7 @@ describe('Upload Products v2', () => {
             }
           },
           {
-            variant_sku: '{{variant-sku-2}}',
+            variant_sku: '52200002',
             quantity: 100,
             pricing: {
               price: 109.95,
@@ -92,7 +92,7 @@ describe('Upload Products v2', () => {
       }
     ];
 
-    const config: object = await options.options('POST', '/products/upload', authToken, requestPayload, (v2 = true));
+    const config: object = await options.options('POST', '/v2/products/upload', authToken, requestPayload, (v2 = true));
     await axios(config).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.statusText).to.equal('OK');

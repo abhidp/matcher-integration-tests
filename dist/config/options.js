@@ -38,7 +38,7 @@ dotenv.config();
 exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
     const config = {
         method: 'POST',
-        url: `${process.env.API_PREFIX_V1}/authenticate`,
+        url: `${process.env.API_PREFIX}/v1/authenticate`,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -53,12 +53,12 @@ exports.getJwtToken = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.options = (method, path, accessToken, data, v2) => __awaiter(void 0, void 0, void 0, function* () {
     return {
         method,
-        url: v2 ? `${process.env.API_PREFIX_V2}${path}` : `${process.env.API_PREFIX_V1}${path}`,
+        url: `${process.env.API_PREFIX}${path}`,
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`
         },
-        data
+        data: JSON.stringify(data)
     };
 });
 //# sourceMappingURL=options.js.map

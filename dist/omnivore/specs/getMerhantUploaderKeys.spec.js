@@ -41,7 +41,7 @@ describe('Request Merchant Uploader Api-Key', () => __awaiter(void 0, void 0, vo
         it('Should return 401: Unauthorized when access token is not provided', () => __awaiter(void 0, void 0, void 0, function* () {
             accessToken = null;
             data = null;
-            const config = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+            const config = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
             yield axios_1.default(config).catch((error) => {
                 chai_1.expect(error.response.data).to.be.an('object');
                 chai_1.expect(error.response.status).to.equal(401);
@@ -49,15 +49,32 @@ describe('Request Merchant Uploader Api-Key', () => __awaiter(void 0, void 0, vo
                 chai_1.expect(error.response.data.message).to.equal('Unauthorized');
             });
         }));
-        it('Should return 400: Bad Request when request body is malformed', () => __awaiter(void 0, void 0, void 0, function* () {
+        it('Should return 400: Bad Request when "merchant" is missing from request body', () => __awaiter(void 0, void 0, void 0, function* () {
             accessToken = yield options.getJwtToken();
-            data = null;
-            const config = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+            data = {
+                integrator: process.env.INTEGRATOR
+            };
+            const config = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
             yield axios_1.default(config).catch((error) => {
                 chai_1.expect(error.response.status).to.equal(400);
                 chai_1.expect(error.response.statusText).to.equal('Bad Request');
                 chai_1.expect(error.response.data).to.be.an('object');
                 chai_1.expect(error.response.data.msg).to.be.equal('missing struct field merchant at $');
+                chai_1.expect(error.response.data.code).to.be.equal('E0000000');
+                chai_1.expect(error.response.data.detail).to.be.null;
+            });
+        }));
+        it('Should return 400: Bad Request when "integrator" is missing from request body', () => __awaiter(void 0, void 0, void 0, function* () {
+            accessToken = yield options.getJwtToken();
+            data = {
+                merchant: process.env.MERCHANT_DEFAULT
+            };
+            const config = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
+            yield axios_1.default(config).catch((error) => {
+                chai_1.expect(error.response.status).to.equal(400);
+                chai_1.expect(error.response.statusText).to.equal('Bad Request');
+                chai_1.expect(error.response.data).to.be.an('object');
+                chai_1.expect(error.response.data.msg).to.be.equal('missing struct field integrator at $');
                 chai_1.expect(error.response.data.code).to.be.equal('E0000000');
                 chai_1.expect(error.response.data.detail).to.be.null;
             });
@@ -72,7 +89,7 @@ describe('Request Merchant Uploader Api-Key', () => __awaiter(void 0, void 0, vo
                 merchant: process.env.MERCHANT_DEFAULT,
                 integrator: process.env.INTEGRATOR
             };
-            const config = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+            const config = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
             yield axios_1.default(config)
                 .then((response) => {
                 chai_1.expect(response.status).to.equal(200);

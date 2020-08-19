@@ -5,7 +5,7 @@ dotenv.config();
 export const getJwtToken = async () => {
   const config: object = {
     method: 'POST',
-    url: `${process.env.API_PREFIX_V1}/authenticate`,
+    url: `${process.env.API_PREFIX}/v1/authenticate`,
     headers: {
       'Content-Type': 'application/json'
     },
@@ -22,11 +22,11 @@ export const getJwtToken = async () => {
 export const options = async (method: string, path: string, accessToken?: any, data?: any, v2?: boolean) => {
   return {
     method,
-    url: v2 ? `${process.env.API_PREFIX_V2}${path}` : `${process.env.API_PREFIX_V1}${path}`,
+    url: `${process.env.API_PREFIX}${path}`,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    data
+    data: JSON.stringify(data)
   };
 };

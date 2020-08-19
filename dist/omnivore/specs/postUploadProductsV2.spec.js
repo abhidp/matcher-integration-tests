@@ -44,7 +44,7 @@ describe('Upload Products v2', () => {
             integrator: process.env.INTEGRATOR
         };
         const accessToken = yield options.getJwtToken();
-        const apiKeyconfig = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+        const apiKeyconfig = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
         const apiKey = (yield axios_1.default(apiKeyconfig)).data['api-key'];
         // Get an Auth Token as Merchant Uploader Role
         const getAuthTokenRequestBody = {
@@ -54,7 +54,7 @@ describe('Upload Products v2', () => {
             }
         };
         let token = null;
-        const authTokenconfig = yield options.options('POST', '/authenticate', token, getAuthTokenRequestBody);
+        const authTokenconfig = yield options.options('POST', '/v1/authenticate', token, getAuthTokenRequestBody);
         authToken = (yield axios_1.default(authTokenconfig)).data['jwt_token'];
     }));
     it('should upload a product successfully', () => __awaiter(void 0, void 0, void 0, function* () {
@@ -84,7 +84,7 @@ describe('Upload Products v2', () => {
                 ],
                 variants: [
                     {
-                        variant_sku: '{{variant-sku-1}}',
+                        variant_sku: '51100001',
                         quantity: 100,
                         pricing: {
                             price: 109.95,
@@ -102,7 +102,7 @@ describe('Upload Products v2', () => {
                         }
                     },
                     {
-                        variant_sku: '{{variant-sku-2}}',
+                        variant_sku: '52200002',
                         quantity: 100,
                         pricing: {
                             price: 109.95,
@@ -118,7 +118,7 @@ describe('Upload Products v2', () => {
                 ]
             }
         ];
-        const config = yield options.options('POST', '/products/upload', authToken, requestPayload, (v2 = true));
+        const config = yield options.options('POST', '/v2/products/upload', authToken, requestPayload, (v2 = true));
         yield axios_1.default(config).then((response) => {
             chai_1.expect(response.status).to.equal(200);
             chai_1.expect(response.statusText).to.equal('OK');

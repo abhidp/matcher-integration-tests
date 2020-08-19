@@ -42,7 +42,7 @@ describe('Request Access Token as Merchant Uploader Role', () => __awaiter(void 
     };
     before('Authenticate', () => __awaiter(void 0, void 0, void 0, function* () {
         accessToken = yield options.getJwtToken();
-        const config = yield options.options('POST', '/api-keys/merchant-uploader', accessToken, data);
+        const config = yield options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
         try {
             const response = yield axios_1.default(config);
             apiKey = response.data['api-key'];
@@ -57,7 +57,7 @@ describe('Request Access Token as Merchant Uploader Role', () => __awaiter(void 
                 merchant_uploader: data
             }
         };
-        const config = yield options.options('POST', '/authenticate', (accessToken = null), bodyWithoutApiKey);
+        const config = yield options.options('POST', '/v1/authenticate', (accessToken = null), bodyWithoutApiKey);
         yield axios_1.default(config).catch((error) => {
             chai_1.expect(error.response.status).to.equal(400);
             chai_1.expect(error.response.statusText).to.equal('Bad Request');
@@ -74,7 +74,7 @@ describe('Request Access Token as Merchant Uploader Role', () => __awaiter(void 
                 merchant_uploader: data
             }
         };
-        const config = yield options.options('POST', '/authenticate', (accessToken = null), bodyWithInvalidApiKey);
+        const config = yield options.options('POST', '/v1/authenticate', (accessToken = null), bodyWithInvalidApiKey);
         yield axios_1.default(config).catch((error) => {
             chai_1.expect(error.response.status).to.equal(401);
             chai_1.expect(error.response.statusText).to.equal('Unauthorized');
@@ -91,7 +91,7 @@ describe('Request Access Token as Merchant Uploader Role', () => __awaiter(void 
                 merchant_uploader: data
             }
         };
-        const config = yield options.options('POST', '/authenticate', (accessToken = null), validRequestBody);
+        const config = yield options.options('POST', '/v1/authenticate', (accessToken = null), validRequestBody);
         yield axios_1.default(config).then((response) => {
             chai_1.expect(response.status).to.equal(200);
             chai_1.expect(response.statusText).to.equal('OK');
