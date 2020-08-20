@@ -64,16 +64,12 @@ describe('Request Merchant Uploader Api-Key', async () => {
         integrator: process.env.INTEGRATOR
       };
       const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
-      await axios(config)
-        .then((response) => {
-          expect(response.status).to.equal(200);
-          expect(response.statusText).to.equal('OK');
-          expect(response.data).to.be.an('object');
-          expect(response.headers['content-type']).to.contain('application/json');
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-        });
+      await axios(config).then((response) => {
+        expect(response.status).to.equal(200);
+        expect(response.statusText).to.equal('OK');
+        expect(response.data).to.be.an('object');
+        expect(response.headers['content-type']).to.contain('application/json');
+      });
     });
   });
 });

@@ -1,9 +1,9 @@
 {
   "defaultSeverity": "error",
-  "extends": [ "tslint:recommended", "tslint-no-unused-expression-chai" ],
+  "extends": ["tslint:recommended", "tslint-no-unused-expression-chai"],
   "jsRules": {},
   "rules": {
-    "trailing-comma": [ false ],
+    "trailing-comma": [false],
     "no-console": false,
     "no-var-requires": false
   }
