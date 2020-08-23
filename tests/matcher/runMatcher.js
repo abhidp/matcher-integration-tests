@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const Mocha = require('mocha');
+
 require('dotenv').config({ path: 'tests/matcher/.env' });
 
 const mocha = new Mocha({
-  reporter: 'list'
+  timeout: 60000
 });
 const testDir = 'tests/matcher/specs';
 
@@ -16,6 +17,4 @@ fs.readdirSync(testDir)
     mocha.addFile(path.join(testDir, file));
   });
 
-mocha.run(function (failures) {
-  process.exitCode = failures ? 1 : 0;
-});
+mocha.run();

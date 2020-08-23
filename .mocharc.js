@@ -14,6 +14,8 @@ module.exports = {
   jobs: 5,
   cleanReferencesAfterRun: true,
   reporter: ['spec', 'node_modules/mochawesome'],
+  // require: ['chai/register-expect'],
+  // spec: ['tests/matcher/specs/*.spec.ts'],
   'reporter-option': [
     'overwrite=true',
     'reportTitle=API Test Report',

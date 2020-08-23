@@ -41,6 +41,6 @@ export const options = async (method: string, path: string, accessToken?: any, d
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`
     },
-    data: JSON.stringify(data)
+    data
   };
 };

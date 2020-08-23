@@ -12,8 +12,9 @@
       "*": ["node_modules/*"]
     },
     "typeRoots": ["./node_modules/@types"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["mocha", "node", "chai"]
   },
-  "include": ["data/**/*", "util/*", "config/**/*", "tests/**/*"],
+  "include": ["data/**/*", "util/**/*", "config/**/*", "tests/**/*"],
   "exclude": ["./dist/*"]
 }
