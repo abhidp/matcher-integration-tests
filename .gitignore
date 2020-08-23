@@ -5,3 +5,4 @@ test_report
 yarn-error.log
 certificates
 .DS_Store
+dist

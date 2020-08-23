@@ -13,9 +13,6 @@ module.exports = {
   parallel: false,
   jobs: 5,
   cleanReferencesAfterRun: true,
-  'watch-files': ['lib/**/*.js', 'dist/omnivore/specs/*.spec.js'],
-  spec: './dist/omnivore/specs/*.spec.js',
-  require: ['dotenv/config', '@babel/register'],
   reporter: ['spec', 'node_modules/mochawesome'],
   'reporter-option': [
     'overwrite=true',
