@@ -1,19 +1,25 @@
-import 'regenerator-runtime/runtime.js';
-import * as options from '../../config/options';
+import * as options from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
 
 describe('Request Access Token as Merchant Uploader Role', async () => {
-  let accessToken: string,
+  let merchantAccessToken: string,
     apiKey: string,
     data: object = {
       merchant: process.env.MERCHANT_DEFAULT,
       integrator: process.env.INTEGRATOR
     };
 
-  before('Authenticate', async () => {
-    accessToken = await options.getJwtToken();
-    const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
+  before('Authenticate as Merchant', async () => {
+    const authenticateBody: object = {
+      apiKey: process.env.API_KEY,
+      requiredRole: {
+        merchant_default: process.env.MERCHANT_DEFAULT
+      }
+    };
+
+    merchantAccessToken = await options.getJwtToken(authenticateBody);
+    const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', merchantAccessToken, data);
     try {
       const response = await axios(config);
       apiKey = response.data['api-key'];
@@ -22,14 +28,14 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
     }
   });
 
-  it('Should return 400: Bad request when apiKey is not provided in the body', async () => {
+  it('Should return 400: Bad Request when apiKey is not provided in the body', async () => {
     const bodyWithoutApiKey = {
       requiredRole: {
         merchant_uploader: data
       }
     };
 
-    const config: object = await options.options('POST', '/v1/authenticate', (accessToken = null), bodyWithoutApiKey);
+    const config: object = await options.options('POST', '/v1/authenticate', merchantAccessToken, bodyWithoutApiKey);
     await axios(config).catch((error) => {
       expect(error.response.status).to.equal(400);
       expect(error.response.statusText).to.equal('Bad Request');
@@ -51,7 +57,7 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
     const config: object = await options.options(
       'POST',
       '/v1/authenticate',
-      (accessToken = null),
+      merchantAccessToken,
       bodyWithInvalidApiKey
     );
     await axios(config).catch((error) => {
@@ -71,7 +77,7 @@ describe('Request Access Token as Merchant Uploader Role', async () => {
         merchant_uploader: data
       }
     };
-    const config: object = await options.options('POST', '/v1/authenticate', (accessToken = null), validRequestBody);
+    const config: object = await options.options('POST', '/v1/authenticate', merchantAccessToken, validRequestBody);
     await axios(config).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.statusText).to.equal('OK');

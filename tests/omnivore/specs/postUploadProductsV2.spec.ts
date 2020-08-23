@@ -1,10 +1,15 @@
-import 'regenerator-runtime/runtime.js';
-import * as options from '../../config/options';
+import * as options from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
 
 describe('Upload Products v2', () => {
   let authToken: string, v2: boolean;
+  const authenticateBody: object = {
+    apiKey: process.env.API_KEY,
+    requiredRole: {
+      merchant_default: process.env.MERCHANT_DEFAULT
+    }
+  };
   before('Authenticate as Merchant Uploader and get Auth Token', async () => {
     // Request Merchant Uploader api-key
     const data: object = {
@@ -12,8 +17,13 @@ describe('Upload Products v2', () => {
       integrator: process.env.INTEGRATOR
     };
 
-    const accessToken: string = await options.getJwtToken();
-    const apiKeyconfig: object = await options.options('POST', '/v1/api-keys/merchant-uploader', accessToken, data);
+    const merchantAccessToken: string = await options.getJwtToken(authenticateBody);
+    const apiKeyconfig: object = await options.options(
+      'POST',
+      '/v1/api-keys/merchant-uploader',
+      merchantAccessToken,
+      data
+    );
     const apiKey = (await axios(apiKeyconfig)).data['api-key'];
 
     // Get an Auth Token as Merchant Uploader Role
@@ -29,7 +39,7 @@ describe('Upload Products v2', () => {
     authToken = (await axios(authTokenconfig)).data['jwt_token'];
   });
 
-  it('should upload a product successfully', async () => {
+  it('Should upload a product successfully', async () => {
     const requestPayload: object = [
       {
         merchant: process.env.MERCHANT_DEFAULT,

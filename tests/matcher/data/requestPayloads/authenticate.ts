@@ -1,5 +1,3 @@
-// require('dotenv').config({ path: 'tests/matcher/.env' });
-
 export default {
   requestBody: {
     apiKey: process.env.API_KEY,

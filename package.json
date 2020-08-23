@@ -6,13 +6,9 @@
   "scripts": {
     "tslint": "tslint -c tslint.json -p tsconfig.json --fix",
     "tsc": "tsc -w",
-    "test_local": "yarn run resetDb && export NODE_ENV=LOCAL && node_modules/.bin/mocha-parallel-tests dist/specs/*.spec.js",
-    "server": "node_modules/.bin/nodemon dist/data/mocks/server.js",
-    "resetDb": "node dist/util/resetDb.js",
-    "dev": "node dist/util/authenticate.js",
-    "omnivore": "node_modules/.bin/tsc && node_modules/.bin/mocha .mocharc.js",
     "prettier": "node_modules/.bin/prettier --write .",
-    "matcher": "node -r ts-node/register tests/matcher/runMatcher.js"
+    "matcher": "node -r ts-node/register tests/matcher/runMatcherSpecs.js",
+    "omnivore": "node -r ts-node/register tests/omnivore/runOmnivoreSpecs.js"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +31,6 @@
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "mocha": "^8.1.1",
-    "mochawesome": "^6.1.1",
     "qs": "^6.9.4"
   }
 }

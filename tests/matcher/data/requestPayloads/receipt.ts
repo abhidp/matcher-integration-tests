@@ -79,7 +79,7 @@ export default {
         address: null,
         network_merchant_id: '123456789',
         merchant_category_code: null,
-        card: { pan: { mpan: '8888' }, card_type: 'visa' },
+        card: { pan: { mpan: '5678' }, card_type: 'visa' },
         acquirer: 'NAB',
         purchase_type: 'credit',
         transaction_type: 'purchase',
