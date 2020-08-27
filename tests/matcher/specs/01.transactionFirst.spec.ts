@@ -13,31 +13,7 @@ let merchantToken: string,
   consumerXRef: string,
   transactionXRef: string;
 
-describe('Receipt first: Matcher Integration Test', async () => {
-  describe('Create receipt first as Merchant', async () => {
-    it('Authenticate as Merchant', async () => {
-      const data: object = authenticate.requestBody;
-      merchantToken = await api.getJwtToken(data);
-      expect(merchantToken).to.be.string;
-      expect(merchantToken).to.not.be.empty;
-      expect(merchantToken).to.not.be.null;
-    });
-
-    it('Create a random receipt as Merchant', async () => {
-      const receiptPayload: object = receipt.requestBody;
-      const config: any = await api.options('POST', '/v1/receipts', merchantToken, receiptPayload);
-
-      await axios(config).then((response) => {
-        expect(response.status).to.equal(200);
-        expect(response.statusText).to.equal('OK');
-        expect(response.data).to.have.key('xref');
-        expect(response.data.xref).to.be.not.null;
-        expect(response.data.xref).to.be.not.empty;
-        receiptXRef = response.data.xref;
-      });
-    });
-  });
-
+describe('Transaction First : Matcher Integration Test', async () => {
   describe('Create transaction as Bank', async () => {
     it('Authenticate as Bank', async () => {
       await api.authenticateAsBank().then((token) => {
@@ -81,12 +57,28 @@ describe('Receipt first: Matcher Integration Test', async () => {
         expect(response.statusText).to.equal('OK');
       });
     });
+  });
 
-    it('Search receipts for Consumer as Bank', async () => {
-      let config: any = await api.options('GET', `/v1/consumers/${consumerXRef}/receipts`, bankToken);
+  describe('Create receipt as Merchant', async () => {
+    it('Authenticate as Merchant', async () => {
+      const data: object = authenticate.requestBody;
+      merchantToken = await api.getJwtToken(data);
+      expect(merchantToken).to.be.string;
+      expect(merchantToken).to.not.be.empty;
+      expect(merchantToken).to.not.be.null;
+    });
+
+    it('Create a random receipt as Merchant', async () => {
+      const receiptPayload: object = receipt.requestBody;
+      const config: any = await api.options('POST', '/v1/receipts', merchantToken, receiptPayload);
+
       await axios(config).then((response) => {
         expect(response.status).to.equal(200);
         expect(response.statusText).to.equal('OK');
+        expect(response.data).to.have.key('xref');
+        expect(response.data.xref).to.be.not.null;
+        expect(response.data.xref).to.be.not.empty;
+        receiptXRef = response.data.xref;
       });
     });
   });
@@ -110,6 +102,7 @@ describe('Receipt first: Matcher Integration Test', async () => {
         ...config.headers,
         'x-slyp-correlation-id': 'XCI-1234-matcher-testing'
       };
+
       await axios(config).then((response) => {
         expect(response.status).to.equal(200);
         expect(response.statusText).to.equal('OK');

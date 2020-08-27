@@ -8,7 +8,7 @@ let bankToken: string;
 
 const raxConfig: object = {
   retry: 5,
-  noResponseRetries: 3,
+  noResponseRetries: 5,
   retryDelay: 2000,
   httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT'],
   statusCodesToRetry: [
