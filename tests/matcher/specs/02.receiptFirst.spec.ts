@@ -110,10 +110,25 @@ describe('Receipt First: Matcher Integration Test', async () => {
         ...config.headers,
         'x-slyp-correlation-id': 'XCI-1234-matcher-testing'
       };
-      await axios(config).then((response) => {
-        expect(response.status).to.equal(200);
-        expect(response.statusText).to.equal('OK');
-        expect(response.data.xref).to.equal(receiptXRef);
+
+      await axios(config).then((res) => {
+        const response = res.data;
+        const request = receipt.requestBody;
+
+        expect(res.status).to.equal(200);
+        expect(res.statusText).to.equal('OK');
+        expect(res.data.xref).to.equal(receiptXRef);
+
+        expect(request.basket_items.length).to.equal(response.basket_items.length);
+        expect(request.total_price).to.equal(response.total_price);
+        expect(request.total_tax).to.equal(response.total_tax);
+        expect(request.is_tax_invoice).to.equal(response.is_tax_invoice);
+        expect(request.currency_code).to.equal(response.currency_code);
+        expect(request.barcode.id).to.equal(response.returns.return_barcode);
+        expect(request.issued_at).to.equal(response.issued_at);
+        expect(response.payments[0].name)
+          .to.include(JSON.parse(JSON.stringify(request.payment_data[0].card.pan.mpan)))
+          .and.include(JSON.parse(JSON.stringify(request.payment_data[0].card.card_type)).toUpperCase());
       });
     });
   });
