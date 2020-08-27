@@ -3,7 +3,7 @@ import { randomString, randomNumber } from '../../../../util/helper';
 export default {
   requestBody: {
     merchant: process.env.MERCHANT_DEFAULT,
-    store_id: 'BH-001',
+    store_id: '9',
     external_id: randomString(10),
     replacement_for: null,
     replaced_by: null,

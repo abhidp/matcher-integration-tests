@@ -3,6 +3,5 @@ node_modules
 test_report
 .vscode
 yarn-error.log
-certificates
 .DS_Store
 dist

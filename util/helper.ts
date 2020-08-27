@@ -7,3 +7,5 @@ export const randomNumber = (length?: number) => {
   length = length || 4;
   return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
 };
+
+export const delay = (time: number) => new Promise((res) => setTimeout(res, time));
