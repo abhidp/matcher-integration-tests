@@ -13,26 +13,26 @@ describe('Create receipt as Merchant and verify by getting the receipt', () => {
     }
   };
 
-  before('Authenticate as Merchant Uploader and get Auth Token', async () => {
-    // Request Merchant Uploader api-key
+  it('Authenticate as Merchant and get Product Uploader Auth Token', async () => {
+    // Request Product Uploader api-key
     const data: object = {
       merchant: process.env.MERCHANT_DEFAULT,
       integrator: process.env.INTEGRATOR
     };
-    merchantAccessToken = await options.getJwtToken(authenticateBody);
+    merchantAccessToken = await options.authenticateAsMerchant(authenticateBody);
     const apiKeyconfig: object = await options.options(
       'POST',
-      '/v1/api-keys/merchant-uploader',
+      '/v1/api-keys/product-uploader',
       merchantAccessToken,
       data
     );
     const apiKey = (await axios(apiKeyconfig)).data['api-key'];
 
-    // Get an Auth Token as Merchant Uploader Role
+    // Get an Auth Token as Product Uploader Role
     const getAuthTokenRequestBody: object = {
       apiKey,
       requiredRole: {
-        merchant_uploader: data
+        product_uploader: data
       }
     };
     let token = null;
@@ -40,7 +40,7 @@ describe('Create receipt as Merchant and verify by getting the receipt', () => {
     authToken = (await axios(authTokenconfig)).data['jwt_token'];
 
     // Upload Product catalogue
-    const productCatalogPayload: object = productCatalog.productCatalogPayload;
+    const productCatalogPayload: object = productCatalog.requestBody;
     const config: object = await options.options('POST', '/v2/products/upload', authToken, productCatalogPayload);
     await axios(config).catch((error) => {
       console.log('ERROR :', error);

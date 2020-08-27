@@ -17,7 +17,7 @@ describe('Receipt First: Matcher Integration Test', async () => {
   describe('Create receipt first as Merchant', async () => {
     it('Authenticate as Merchant', async () => {
       const data: object = authenticate.requestBody;
-      merchantToken = await api.getJwtToken(data);
+      merchantToken = await api.authenticateAsMerchant(data);
       expect(merchantToken).to.be.string;
       expect(merchantToken).to.not.be.empty;
       expect(merchantToken).to.not.be.null;

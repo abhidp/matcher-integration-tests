@@ -24,21 +24,22 @@ const raxConfig: object = {
   }
 };
 
-export const getJwtToken = async (data?: object) => {
+export const authenticateAsMerchant = async (data?: object) => {
   const config: object = {
     method: 'POST',
     url: `${process.env.API_PREFIX}/v1/authenticate`,
     headers: {
       'Content-Type': 'application/json'
     },
-    data
+    data,
+    timeout: 10000
   };
 
   const response = await axios(config);
   return response.data.jwt_token;
 };
 
-export const options = async (method: string, path: string, accessToken?: any, data?: any, v2?: boolean) => {
+export const options = async (method: string, path: string, accessToken?: any, data?: any) => {
   return {
     method,
     url: `${process.env.API_PREFIX}${path}`,
@@ -47,7 +48,7 @@ export const options = async (method: string, path: string, accessToken?: any, d
       'Content-Type': 'application/json'
     },
     data,
-    timeout: 5000,
+    timeout: 10000,
     raxConfig
   };
 };

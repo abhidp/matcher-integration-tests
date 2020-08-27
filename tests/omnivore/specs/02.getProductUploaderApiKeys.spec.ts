@@ -1,8 +1,8 @@
-import * as options from '../../../config/api';
+import * as api from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
 
-describe('Request Merchant Uploader Api-Key', async () => {
+describe('Request Product Uploader Api-Key', async () => {
   let merchantAccessToken: string, data: object;
   const authenticateBody: object = {
     apiKey: process.env.API_KEY,
@@ -15,7 +15,7 @@ describe('Request Merchant Uploader Api-Key', async () => {
     it('Should return 401: Unauthorized when access token is not provided', async () => {
       merchantAccessToken = null;
       data = null;
-      const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', merchantAccessToken, data);
+      const config: object = await api.options('POST', '/v1/api-keys/product-uploader', merchantAccessToken, data);
 
       await axios(config).catch((error) => {
         expect(error.response.data).to.be.an('object');
@@ -26,11 +26,11 @@ describe('Request Merchant Uploader Api-Key', async () => {
     });
 
     it('Should return 400: Bad Request when "merchant" is missing from request body', async () => {
-      merchantAccessToken = await options.getJwtToken(authenticateBody);
+      merchantAccessToken = await api.authenticateAsMerchant(authenticateBody);
       data = {
         integrator: process.env.INTEGRATOR
       };
-      const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', merchantAccessToken, data);
+      const config: object = await api.options('POST', '/v1/api-keys/product-uploader', merchantAccessToken, data);
       await axios(config).catch((error) => {
         expect(error.response.status).to.equal(400);
         expect(error.response.statusText).to.equal('Bad Request');
@@ -42,11 +42,11 @@ describe('Request Merchant Uploader Api-Key', async () => {
     });
 
     it('Should return 400: Bad Request when "integrator" is missing from request body', async () => {
-      merchantAccessToken = await options.getJwtToken(authenticateBody);
+      merchantAccessToken = await api.authenticateAsMerchant(authenticateBody);
       data = {
         merchant: process.env.MERCHANT_DEFAULT
       };
-      const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', merchantAccessToken, data);
+      const config: object = await api.options('POST', '/v1/api-keys/product-uploader', merchantAccessToken, data);
       await axios(config).catch((error) => {
         expect(error.response.status).to.equal(400);
         expect(error.response.statusText).to.equal('Bad Request');
@@ -60,7 +60,7 @@ describe('Request Merchant Uploader Api-Key', async () => {
 
   describe('Positive scenarios', async () => {
     before('Authenticate', async () => {
-      merchantAccessToken = await options.getJwtToken(authenticateBody);
+      merchantAccessToken = await api.authenticateAsMerchant(authenticateBody);
     });
 
     it('Should successfully get an apikey for merchant uploader', async () => {
@@ -68,7 +68,7 @@ describe('Request Merchant Uploader Api-Key', async () => {
         merchant: process.env.MERCHANT_DEFAULT,
         integrator: process.env.INTEGRATOR
       };
-      const config: object = await options.options('POST', '/v1/api-keys/merchant-uploader', merchantAccessToken, data);
+      const config: object = await api.options('POST', '/v1/api-keys/product-uploader', merchantAccessToken, data);
       await axios(config).then((response) => {
         expect(response.status).to.equal(200);
         expect(response.statusText).to.equal('OK');
