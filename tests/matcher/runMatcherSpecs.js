@@ -33,8 +33,8 @@ switch (argv.env.toUpperCase()) {
     break;
 }
 
-const envParsed = env.parsed;
-const isEnvEmpty = !Object.values(envParsed).some((x) => x !== null && x !== '');
+const envVariables = env.parsed;
+const isEnvEmpty = !Object.values(envVariables).some((x) => x !== null && x !== '');
 
 if (isEnvEmpty) {
   console.error(

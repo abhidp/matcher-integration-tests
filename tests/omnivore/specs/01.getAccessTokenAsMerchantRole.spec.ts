@@ -1,9 +1,11 @@
-import * as api from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
 
+import * as api from '../../../config/api';
+import { merchantAuthResponseSchema } from '../data/responseSchemas/authenticate';
+
 describe('Request Access Token as Merchant Role', async () => {
-  let merchantAccessToken: string, apiKey: string;
+  const merchantAccessToken: string = '';
 
   it('Should return 400: Bad Request when apiKey is not provided in the body', async () => {
     const bodyWithoutApiKey = {
@@ -59,6 +61,7 @@ describe('Request Access Token as Merchant Role', async () => {
       expect(response.data.userRole).to.be.an('object');
       expect(response.data.userRole).to.have.key('merchant_default');
       expect(response.data.userRole.merchant_default).to.deep.equal(process.env.MERCHANT_DEFAULT);
+      expect(response.data).to.be.jsonSchema(merchantAuthResponseSchema);
     });
   });
 });

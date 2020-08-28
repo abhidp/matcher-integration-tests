@@ -2,7 +2,7 @@ import axios from 'axios';
 import { expect } from 'chai';
 
 import * as api from '../../../config/api';
-import productCalatog from '../data/requestPayloads/productCalatog';
+import { productCatalogRequestBody } from '../data/requestPayloads/productCalatog';
 
 describe('Upload Products v2', () => {
   let authToken: string;
@@ -37,9 +37,7 @@ describe('Upload Products v2', () => {
   });
 
   it('Should upload a product successfully', async () => {
-    const requestBody = productCalatog.requestBody;
-
-    const config: object = await api.options('POST', '/v2/products/upload', authToken, requestBody);
+    const config: object = await api.options('POST', '/v2/products/upload', authToken, productCatalogRequestBody);
     await axios(config).then((response) => {
       expect(response.status).to.equal(200);
       expect(response.statusText).to.equal('OK');

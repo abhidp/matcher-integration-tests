@@ -115,6 +115,10 @@ describe('Receipt First: Matcher Integration Test', async () => {
         const response = res.data;
         const request = receipt.requestBody;
 
+        const cardTypeUpperCase = JSON.parse(JSON.stringify(request.payment_data[0].card.card_type)).toUpperCase();
+        const cardLastFour = JSON.parse(JSON.stringify(request.payment_data[0].card.pan.mpan));
+        const paymentDataFormat = `${cardTypeUpperCase} (****${cardLastFour})`; // eg. VISA (****5678)
+
         expect(res.status).to.equal(200);
         expect(res.statusText).to.equal('OK');
         expect(res.data.xref).to.equal(receiptXRef);
@@ -126,9 +130,7 @@ describe('Receipt First: Matcher Integration Test', async () => {
         expect(request.currency_code).to.equal(response.currency_code);
         expect(request.barcode.id).to.equal(response.returns.return_barcode);
         expect(request.issued_at).to.equal(response.issued_at);
-        expect(response.payments[0].name)
-          .to.include(JSON.parse(JSON.stringify(request.payment_data[0].card.pan.mpan)))
-          .and.include(JSON.parse(JSON.stringify(request.payment_data[0].card.card_type)).toUpperCase());
+        expect(response.payments[0].name).equal(paymentDataFormat);
       });
     });
   });

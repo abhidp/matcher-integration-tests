@@ -7,8 +7,8 @@ rax.attach();
 let bankToken: string;
 
 const raxConfig: object = {
-  retry: 5,
-  noResponseRetries: 5,
+  retry: 10,
+  noResponseRetries: 2,
   retryDelay: 2000,
   httpMethodsToRetry: ['GET', 'HEAD', 'OPTIONS', 'DELETE', 'PUT'],
   statusCodesToRetry: [
@@ -16,7 +16,7 @@ const raxConfig: object = {
     [401, 429],
     [500, 599]
   ],
-  backoffType: 'static',
+  backoffType: 'exponential',
   onRetryAttempt: (err: any) => {
     const cfg = rax.getConfig(err);
     if (cfg.currentRetryAttempt === 1) console.log('');

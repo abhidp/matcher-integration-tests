@@ -1,6 +1,8 @@
-import * as api from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
+
+import * as api from '../../../config/api';
+import { productUploaderResponseSchema } from '../data/responseSchemas/authenticate';
 
 describe('Request Access Token as Product Uploader Role', async () => {
   let merchantAccessToken: string,
@@ -82,6 +84,7 @@ describe('Request Access Token as Product Uploader Role', async () => {
       expect(response.data.userRole).to.be.an('object');
       expect(response.data.userRole).to.have.key('product_uploader');
       expect(response.data.userRole.product_uploader).to.deep.equal(data);
+      expect(response.data).to.be.jsonSchema(productUploaderResponseSchema);
     });
   });
 });

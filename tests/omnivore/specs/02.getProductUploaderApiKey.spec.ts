@@ -1,6 +1,8 @@
-import * as api from '../../../config/api';
 import axios from 'axios';
 import { expect } from 'chai';
+
+import * as api from '../../../config/api';
+import { productUploaderApiKeyResponseSchema } from '../data/responseSchemas/authenticate';
 
 describe('Request Product Uploader Api-Key', async () => {
   let merchantAccessToken: string, data: object;
@@ -74,6 +76,7 @@ describe('Request Product Uploader Api-Key', async () => {
         expect(response.statusText).to.equal('OK');
         expect(response.data).to.be.an('object');
         expect(response.headers['content-type']).to.contain('application/json');
+        expect(response.data).to.be.jsonSchema(productUploaderApiKeyResponseSchema);
       });
     });
   });
